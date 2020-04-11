@@ -22,9 +22,9 @@ class StatsViewModel(app : Application) : AndroidViewModel(app){
     var studiedWordsAmount = MutableLiveData(0)
     var wordsAmount = MutableLiveData(0)
     var wordsLeft = MutableLiveData(wordsAmount.value?.minus(studiedWordsAmount.value!!))
-    var studiedWordsAmountString = MutableLiveData("Изучено слов: " + studiedWordsAmount.value.toString())
-    var wordsAmountString = MutableLiveData("Всего слов: " + wordsAmount.value.toString())
-    var wordsLeftString = MutableLiveData("Осталось слов: " + wordsLeft.value.toString())
+    var studiedWordsAmountString = MutableLiveData("Изучено слов: идёт подсчёт")
+    var wordsAmountString = MutableLiveData("Всего слов: идёт подсчёт")
+    var wordsLeftString = MutableLiveData("Осталось слов: идёт подсчёт")
 
     var getCurrentLanguage: String = "Текущий язык: English"
 
@@ -32,15 +32,25 @@ class StatsViewModel(app : Application) : AndroidViewModel(app){
         startLangs()
     }
 
+    suspend fun getValues() {
+        var okWords = database.countStudiedWords(mApp.currentLanguage)
+        var allWords = database.countWords(mApp.currentLanguage)
+        delay(20000)
+        studiedWordsAmount.postValue(okWords)
+        wordsAmount.postValue(allWords)
+        wordsLeft.postValue(allWords - okWords)
+    }
+
     private fun startLangs() {
         coroutineScope.launch(Dispatchers.IO) {
-            var okWords = database.countStudiedWords(mApp.currentLanguage)
-            var allWords = database.countWords(mApp.currentLanguage)
-            delay(20000)
-            studiedWordsAmount.postValue(okWords)
-            wordsAmount.postValue(allWords)
-            wordsLeft.postValue(wordsAmount.value?.minus(studiedWordsAmount.value!!))
+//            var okWords = database.countStudiedWords(mApp.currentLanguage)
+//            var allWords = database.countWords(mApp.currentLanguage)
+//            delay(20000)
+//            studiedWordsAmount.postValue(okWords)
+//            wordsAmount.postValue(allWords)
+//            wordsLeft.postValue(wordsAmount.value?.minus(studiedWordsAmount.value!!))
 //            getCurrentLanguage = "Текущий язык " + mApp.allLanguages[(mApp.currentLanguage - 1).toInt()].toString()
+            getValues()
             studiedWordsAmountString.postValue("Изучено слов: " + studiedWordsAmount.value.toString())
             wordsAmountString.postValue("Всего слов: " + wordsAmount.value.toString())
             wordsLeftString.postValue("Осталось слов: " + wordsLeft.value.toString())

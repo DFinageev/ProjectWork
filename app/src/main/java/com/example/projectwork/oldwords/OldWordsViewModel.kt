@@ -48,7 +48,7 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     private fun startingWork() {
         coroutineScope.launch(Dispatchers.IO) {
             okWords.postValue(database.getWords(myApp.currentLanguage).value)
-            delay(2000)
+            delay(10000)
             getOneWord()
             delay(1000)
             getOneWordInternet()

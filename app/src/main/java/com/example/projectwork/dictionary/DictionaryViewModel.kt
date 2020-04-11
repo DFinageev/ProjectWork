@@ -28,9 +28,14 @@ class DictionaryViewModel(application: Application) : AndroidViewModel(applicati
         fillDictionary()
     }
 
+    suspend fun getValues() {
+        okWords = database.getWords(myApp.currentLanguage)
+    }
+
     private fun fillDictionary() {
         coroutineScope.launch(Dispatchers.IO) {
-            okWords = database.getWords(myApp.currentLanguage)
+            getValues()
+            delay(20000)
         }
     }
 
