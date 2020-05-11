@@ -13,7 +13,7 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.projectwork.R
 import com.example.projectwork.databinding.MenuFragmentBinding
-import com.squareup.picasso.Picasso
+//import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.menu_fragment.*
 
 

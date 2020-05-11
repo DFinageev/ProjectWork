@@ -3,12 +3,10 @@ package com.example.projectwork.newwords
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import com.example.projectwork.App
-import com.example.projectwork.database.PolyglotData
 import com.example.projectwork.database.PolyglotDatabaseDao
 import com.example.projectwork.network.SingleWord
+import com.example.projectwork.settings.CurrentLanguageData
 import kotlinx.coroutines.*
 
 class NewWordsViewModel(app : Application) : AndroidViewModel(app) {
@@ -22,18 +20,22 @@ class NewWordsViewModel(app : Application) : AndroidViewModel(app) {
 
 
     var intWord: MutableLiveData<SingleWord?> = MutableLiveData(SingleWord(0, "Wait", "Wait", "Wait", "http://mmcspolyglot.mcdir.ru/images/default_picture.jpg"))
-    var word: MutableLiveData<PolyglotData?> = MutableLiveData(PolyglotData(0, 1, 1, "wait", false))
+    var word: MutableLiveData<CurrentLanguageData?> = MutableLiveData(CurrentLanguageData(1, "wait"))
 
     init {
         startingWork()
     }
 
-    suspend fun getOneWord() {
-        word.postValue(database.getFirstWord(myApp.currentLanguage))
+    fun getOneWord() {
+        if (myApp.notStudiedWords.count() == 0) {
+            word.postValue(null)
+        } else {
+            word.postValue(myApp.notStudiedWords!!.random())
+        }
     }
 
     suspend fun getOneWordInternet() {
-        intWord.postValue(word?.value?.langId?.let { word?.value?.wordId?.let { it1 ->
+        intWord.postValue((myApp.currentLanguage + 1).let { word?.value?.wordId?.let { it1 ->
             myApp.remoteService.getWordInfo(it,
                 it1
             )
@@ -44,7 +46,7 @@ class NewWordsViewModel(app : Application) : AndroidViewModel(app) {
     private fun startingWork() {
         coroutineScope.launch(Dispatchers.IO) {
             getOneWord()
-            delay(500)
+            delay(100)
             getOneWordInternet()
 
         }
@@ -57,14 +59,12 @@ class NewWordsViewModel(app : Application) : AndroidViewModel(app) {
 
     fun nextWord() {
         coroutineScope.launch(Dispatchers.IO) {
-            word?.value?.originalWord = intWord?.value?.originWord ?: "unknown"
-            word?.value?.isStudied = true
-            word?.let { database.update(it.value!!) }
-            delay(500)
-
-
+            word?.value?.word = intWord?.value?.originWord ?: "not_studied_yet"
+            myApp.notStudiedWords!!.remove(myApp.notStudiedWords!!.find {t -> t.wordId == word.value!!.wordId})
+            myApp.studiedWords?.add(word.value!!)
+            delay(100)
             getOneWord()
-            delay(500)
+            delay(100)
             getOneWordInternet()
 //            intWord.postValue(word?.value?.langId?.let { word?.value?.wordId?.let { it1 ->
 //                myApp.remoteService.getWordInfo(it,

@@ -1,15 +1,14 @@
 package com.example.projectwork
 
 import android.app.Application
+import android.util.Log
 import com.example.projectwork.database.PolyglotData
 import com.example.projectwork.database.PolyglotDatabase
-import com.example.projectwork.database.PolyglotDatabaseDao
 import com.example.projectwork.network.PolyglotService
+import com.example.projectwork.settings.CurrentLanguageData
 import com.example.projectwork.settings.LanguageData
 import kotlinx.coroutines.coroutineScope
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.delay
 
 class App : Application() {
 
@@ -22,9 +21,11 @@ class App : Application() {
 
     data class Word(var word : String, var transcrypt: String, var translation: String)
 
-    var currentLanguage: Long = 1
+    var currentLanguage: Long = 0
     var dictWord = Word("unknown", "unknown", "unknown")
-    lateinit var allLanguages: List<LanguageData>
+    lateinit var allLanguages: MutableList<LanguageData>
+    var studiedWords: MutableList<CurrentLanguageData> = mutableListOf()
+    var notStudiedWords: MutableList<CurrentLanguageData> = mutableListOf()
 
 //    suspend fun getLangs() {
 //        coroutineScope.launch {
@@ -37,7 +38,59 @@ class App : Application() {
 
     suspend fun getLangsResponse() {
         var listResult = remoteService.getListOfLanguages()
-        allLanguages = listOf(LanguageData(1, listResult!!.languages, listResult!!.wordsCount))
+//        delay(500)
+        val languages = listResult!!.languages.split(delimiters = *charArrayOf(';'))
+        val wordsCount = listResult!!.wordsCount.split(delimiters = *charArrayOf(';'))
+        allLanguages = mutableListOf()
+        for (i in 0 until listResult!!.count) {
+            allLanguages.add(
+                LanguageData(
+                    i + 1,
+                    languages[(i).toInt()],
+                    wordsCount[(i).toInt()].toLong()
+                )
+            )
+        }
+    }
+
+    fun refreshCurrentWords(notStudied: List<CurrentLanguageData>) {
+        if (notStudiedWords.isEmpty()) {
+            notStudiedWords = mutableListOf()
+        }
+        notStudiedWords.addAll(notStudied)
+    }
+
+    fun setLanguage(langInfo: PolyglotData) {
+        notStudiedWords = mutableListOf()
+        studiedWords = mutableListOf()
+
+        notStudiedWords = MutableList(langInfo.notStudiedCount.toInt()) { i -> CurrentLanguageData(
+            langInfo.notStudiedWordIds.split(delimiters = *arrayOf((";")))[i].toLong(),
+            langInfo.notStudiedOriginalWords.split(delimiters = *arrayOf((";")))[i]
+        )}
+        studiedWords = MutableList(langInfo.studiedCount.toInt()) { i -> CurrentLanguageData(
+            langInfo.studiedWordIds.split(delimiters = *arrayOf(";"))[i].toLong(),
+            langInfo.studiedOriginalWords.split(delimiters = *arrayOf(";"))[i]
+        )}
+
+    }
+
+    suspend fun languageToBase(languageNumber: Long) {
+        val languageBaseFormat = PolyglotData(
+            uniqueId = languageNumber + 1,
+            studiedWordIds = studiedWords.joinToString(separator = ";") { t -> t.wordId.toString()},
+            notStudiedWordIds = notStudiedWords.joinToString(separator = ";") { t -> t.wordId.toString() },
+            studiedOriginalWords = studiedWords.joinToString(separator = ";") { t -> t.word },
+            notStudiedOriginalWords = notStudiedWords.joinToString(separator = ";") { t -> t.word },
+            studiedCount = studiedWords.count().toLong(),
+            notStudiedCount = notStudiedWords.count().toLong(),
+            allCount = studiedWords.count().toLong() + notStudiedWords.count().toLong()
+        )
+
+        Log.d("App", "sendToBase = $languageBaseFormat")
+        studiedWords = mutableListOf()
+        notStudiedWords = mutableListOf()
+        database.polyglotDatabaseDao.update(languageBaseFormat)
     }
 
 //    suspend fun inserts(begin: Long, finish: Long) {

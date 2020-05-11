@@ -14,11 +14,13 @@ import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.projectwork.App
 
 import com.example.projectwork.R
 import com.example.projectwork.base_list.ListAdapter
 import com.example.projectwork.database.PolyglotData
 import com.example.projectwork.oldwordrepeat.OldWordRepeatFragment
+import com.example.projectwork.settings.CurrentLanguageData
 import kotlinx.android.synthetic.main.dictionary_fragment.*
 import kotlinx.coroutines.withContext
 
@@ -29,9 +31,9 @@ class DictionaryFragment : Fragment() {
     }
 
     private lateinit var viewModel: DictionaryViewModel
-    private val adapter : ListAdapter<PolyglotData> = DictionaryAdapter{
+    private val adapter : ListAdapter<CurrentLanguageData> = DictionaryAdapter{
         //обработку нажатий на элемент списка лучше делать из фрагмента
-        val bundle = bundleOf(OldWordRepeatFragment.WORD_ID to it.uniqueId)
+        val bundle = bundleOf(OldWordRepeatFragment.WORD_ID to it.wordId)
         view?.findNavController()?.navigate(R.id.action_dictionaryFragment_to_oldWordRepeatFragment, bundle)
     }
 
@@ -59,10 +61,13 @@ class DictionaryFragment : Fragment() {
 
         //val linDict = LinearLayout(this!)
         //подписываемся на лайвдату и при обновлении она будет обновлять список
+
+//        viewModel.getValues()
         viewModel.okWords.observe(viewLifecycleOwner){
             adapter.setList(it)
             Log.d("Dictionary", "okWords = $it")
         }
+//        adapter.setList(viewModel.okWords.value!!)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             view?.let { findNavController().navigate(R.id.action_dictionaryFragment_to_oldWordsMenuFragment) }

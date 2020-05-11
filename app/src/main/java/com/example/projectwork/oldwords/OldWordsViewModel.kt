@@ -6,10 +6,9 @@ import com.example.projectwork.App
 import com.example.projectwork.database.PolyglotData
 import com.example.projectwork.database.PolyglotDatabaseDao
 import com.example.projectwork.network.SingleWord
+import com.example.projectwork.settings.CurrentLanguageData
 import kotlinx.coroutines.*
 import java.util.*
-import kotlin.random.Random
-import kotlin.random.nextLong
 
 class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     private val database : PolyglotDatabaseDao = (app as App).database.polyglotDatabaseDao
@@ -22,22 +21,23 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     private lateinit var okWords: MutableLiveData<List<PolyglotData?>>
 
     var intWord: MutableLiveData<SingleWord?> = MutableLiveData(SingleWord(0, "Wait", "Wait", "Wait", "http://mmcspolyglot.mcdir.ru/images/default_picture.jpg"))
-    var word: MutableLiveData<PolyglotData?> = MutableLiveData(PolyglotData(0, 1, 1, "wait", false))
+    var word: MutableLiveData<CurrentLanguageData?> = MutableLiveData(CurrentLanguageData(1, "wait"))
+    var resultText = ""
 
     init {
         startingWork()
     }
 
-    suspend fun getOneWord() {
-        if (okWords.value?.isEmpty()!!){
+    fun getOneWord() {
+        if (myApp.studiedWords.count() == 0){
             word.postValue(null)
         }else{
-            word.postValue(okWords.value!!.random())
+            word.postValue(myApp.studiedWords!!.random())
         }
     }
 
     suspend fun getOneWordInternet() {
-        intWord.postValue(word?.value?.langId?.let { word?.value?.wordId?.let { it1 ->
+        intWord.postValue((myApp.currentLanguage + 1).let { word?.value?.wordId?.let { it1 ->
             myApp.remoteService.getWordInfo(it,
                 it1
             )
@@ -47,25 +47,28 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
 
     private fun startingWork() {
         coroutineScope.launch(Dispatchers.IO) {
-            okWords.postValue(database.getWords(myApp.currentLanguage).value)
-            delay(10000)
             getOneWord()
-            delay(1000)
+            delay(100)
             getOneWordInternet()
         }
     }
 
-    fun splittingWord() = buildString {
-        for (line in intWord.value?.translation?.split(';')!!)
-            append(line + "\n")
-    }
+//    fun splittingWord() = buildString {
+//        for (line in intWord.value?.translation?.split(';')!!)
+//            append(line + "\n")
+//    }
 
     fun nextWord(answer: String) {
         coroutineScope.launch(Dispatchers.IO) {
-            if (!answer.toRegex().containsMatchIn(intWord.value!!.translation.toLowerCase(Locale.ROOT))) {
-                word?.value?.isStudied = false
-                word?.let { database.update(it.value!!) }
-                delay(500)
+            if (!answer.toLowerCase(Locale.ROOT).toRegex().containsMatchIn(intWord.value!!.translation.toLowerCase(Locale.ROOT))) {
+                word.postValue(myApp.notStudiedWords!!.find {t -> t.word == word.value!!.word})
+                myApp.studiedWords!!.remove(myApp.studiedWords!!.find {t -> t.wordId == word.value!!.wordId})
+                myApp.notStudiedWords?.add(word.value!!)
+                resultText = "Неправильно!"
+                delay(100)
+            }
+            else {
+                resultText = "Правильно!"
             }
             getOneWord()
             delay(500)

@@ -21,7 +21,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [PolyglotData::class], version = 1, exportSchema = false)
+@Database(entities = [PolyglotData::class], version = 2, exportSchema = false)
 abstract class PolyglotDatabase : RoomDatabase() {
 
     abstract val polyglotDatabaseDao: PolyglotDatabaseDao

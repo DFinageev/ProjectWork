@@ -25,15 +25,24 @@ data class PolyglotData(
         @PrimaryKey(autoGenerate = true)
         val uniqueId: Long,
 
-        @ColumnInfo(name = "language_id")
-        val langId: Long = 0L,
+        @ColumnInfo(name = "studied_word_ids")
+        var studiedWordIds: String = "",
 
-        @ColumnInfo(name = "word_id")
-        var wordId: Long = 0L,
+        @ColumnInfo(name = "not_studied_word_ids")
+        var notStudiedWordIds: String = "",
 
-        @ColumnInfo(name = "original_word")
-        var originalWord: String = "not_studied_yet",
+        @ColumnInfo(name = "studied_original_words")
+        var studiedOriginalWords: String = "",
 
-        @ColumnInfo(name = "is_studied")
-        var isStudied: Boolean = false
+        @ColumnInfo(name = "not_studied_original_words")
+        var notStudiedOriginalWords: String = "",
+
+        @ColumnInfo(name = "all_count")
+        var allCount: Long = 0L,
+
+        @ColumnInfo(name = "studied_count")
+        var studiedCount: Long = 0L,
+
+        @ColumnInfo(name = "not_studied_count")
+        var notStudiedCount: Long = 0L
 )

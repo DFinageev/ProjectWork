@@ -54,6 +54,7 @@ class AppSettingsAdapter(private val onClickAction : (LanguageData) -> Unit) : L
                 button.text = item.language
                 button.setOnClickListener {
                     onClickAction(item)
+
                 }
             }
         }

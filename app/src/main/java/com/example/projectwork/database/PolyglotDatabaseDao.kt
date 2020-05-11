@@ -26,35 +26,17 @@ import androidx.room.Update
 interface PolyglotDatabaseDao {
 
     @Insert
-    suspend fun insert(word: PolyglotData)
+    suspend fun insert(lang: PolyglotData)
 
     @Update
-    suspend fun update(word: PolyglotData)
+    suspend fun update(lang: PolyglotData)
 
     @Query("SELECT * FROM studied_words WHERE uniqueId = :uniqueId")
-    suspend fun getWord(uniqueId : Long) : PolyglotData
+    suspend fun getLang(uniqueId : Long) : PolyglotData
 
-    @Query("SELECT * FROM studied_words WHERE language_id = :langKey AND word_id = :wordKey")
-    fun getWord(langKey: Long, wordKey: Long): PolyglotData?
+    @Query("SELECT COUNT(DISTINCT uniqueId) FROM studied_words")
+    suspend fun countLangs() : Long
 
-    @Query("SELECT * FROM studied_words WHERE language_id = :langKey AND is_studied = 0 ORDER BY word_id ASC LIMIT 1")
-    suspend fun getFirstWord(langKey: Long): PolyglotData?
-
-    @Query("SELECT * FROM studied_words WHERE language_id = :langKey")
-    fun getWords(langKey: Long): LiveData<List<PolyglotData>>
-
-    @Query("SELECT * FROM studied_words WHERE language_id = :langKey AND is_studied = 1")
-    fun getStudiedWords(langKey: Long): LiveData<List<PolyglotData>>
-
-    @Query("SELECT * FROM studied_words WHERE language_id = :langKey AND is_studied = 0")
-    fun getNotStudiedWords(langKey: Long): LiveData<List<PolyglotData>>
-
-    @Query("SELECT COUNT(DISTINCT language_id) FROM studied_words")
-    fun getLangCount(): Int
-
-    @Query("SELECT COUNT(*) FROM studied_words WHERE language_id = :langKey")
-    suspend fun countWords(langKey: Long): Int
-
-    @Query("SELECT COUNT(*) FROM studied_words WHERE language_id = :langKey AND is_studied = 1")
-    suspend fun countStudiedWords(langKey: Long): Int
+    @Query("SELECT all_count FROM studied_words")
+    suspend fun wordsCount() : List<Long>
 }

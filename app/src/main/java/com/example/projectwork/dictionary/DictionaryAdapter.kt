@@ -9,11 +9,12 @@ import com.example.projectwork.base_list.holder_creators.Creator
 import com.example.projectwork.base_list.holder_creators.SimpleCreator
 import com.example.projectwork.database.PolyglotData
 import com.example.projectwork.databinding.DictionaryItemWithBindingBinding
+import com.example.projectwork.settings.CurrentLanguageData
 import kotlinx.android.synthetic.main.item_without_binding.view.*
 
 
 //если тебе нужна обработка нажатия, то лучше передавать обработчик через конструктор таким образом
-class DictionaryAdapter(private val onClickAction : (PolyglotData) -> Unit) : ListAdapter<PolyglotData>() {
+class DictionaryAdapter(private val onClickAction : (CurrentLanguageData) -> Unit) : ListAdapter<CurrentLanguageData>() {
     //если у тебя в лаяуте item'а списка есть DataBinding, тогда используй BindingCreator
 //    override val creator: Creator<RecyclerView.ViewHolder> =
 //        //Передается конструктор класса, generic параметры это классы Binding и ViewHolder
@@ -36,9 +37,9 @@ class DictionaryAdapter(private val onClickAction : (PolyglotData) -> Unit) : Li
      */
     //c databindingom
     inner class BindingDictionaryViewHolder(private val binding : DictionaryItemWithBindingBinding) : RecyclerView.ViewHolder(binding.root),
-        Bindable<PolyglotData>{
+        Bindable<CurrentLanguageData>{
         //в этом методе связываем наш лайоут с данными
-        override fun bind(item: PolyglotData) {
+        override fun bind(item: CurrentLanguageData) {
             binding.wordData = item
             binding.button.setOnClickListener {
                 onClickAction(item)
@@ -48,10 +49,10 @@ class DictionaryAdapter(private val onClickAction : (PolyglotData) -> Unit) : Li
     }
 
     //без databindingа
-    inner class DictionaryViewHolder(private val view : View) : RecyclerView.ViewHolder(view), Bindable<PolyglotData>{
-        override fun bind(item: PolyglotData) {
+    inner class DictionaryViewHolder(private val view : View) : RecyclerView.ViewHolder(view), Bindable<CurrentLanguageData>{
+        override fun bind(item: CurrentLanguageData) {
             view.apply {
-                word1_tv.text = item.originalWord
+                word1_tv.text = item.word
                 button1.setOnClickListener {
                     onClickAction(item)
                 }

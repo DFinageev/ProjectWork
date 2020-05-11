@@ -16,10 +16,11 @@ class AppSettingsViewModel(application: Application) : AndroidViewModel(applicat
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main )
 
     private val stub : LiveData<List<LanguageData>> = liveData {
-        emit(listOf(LanguageData(1, "English", 8050)))
+        emit(myApp.allLanguages.toList())
     }
-    var listResult : MutableLiveData<ListOfLanguages?> = MutableLiveData(ListOfLanguages(1, "English", 100000))
-    var languages = stub//Запрос в интернет
+    var listResult : MutableLiveData<ListOfLanguages?> = MutableLiveData(ListOfLanguages(1, "English", "1000"))
+//    var languages = stub//Запрос в интернет
+    val languages = stub
 
     init {
         startLangs()
@@ -31,13 +32,20 @@ class AppSettingsViewModel(application: Application) : AndroidViewModel(applicat
 //            languages = liveData {
 //                listOf(1, listResult!!.value!!.languages, listResult!!.value!!.count)
 //            }
+
+        }
+    }
+
+    fun languageToBase(languageNumber: Long) {
+        coroutineScope.launch(Dispatchers.IO) {
+            myApp.languageToBase(languageNumber)
         }
     }
 
     fun changeLangs() {
-        languages = liveData {
-            listOf(1, listResult!!.value!!.languages, listResult!!.value!!.count)
-        }
+//        languages = liveData {
+//            listOf(1, listResult!!.value!!.languages, listResult!!.value!!.count)
+//        }
     }
 
 }

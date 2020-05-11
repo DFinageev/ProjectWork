@@ -7,17 +7,18 @@
     tools:context=".oldwordsmenu.OldWordsMenuFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="409dp"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp">
 
         <Button
             android:id="@+id/dictionaryButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Словарь"
             app:layout_constraintBottom_toTopOf="@+id/oldWordsButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/oldWordsButton"
+            app:layout_constraintStart_toStartOf="@+id/oldWordsButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -29,5 +30,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dictionaryButton" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

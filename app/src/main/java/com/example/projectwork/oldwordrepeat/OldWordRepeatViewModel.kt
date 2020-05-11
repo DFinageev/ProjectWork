@@ -1,14 +1,11 @@
 package com.example.projectwork.oldwordrepeat
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.projectwork.App
-import com.example.projectwork.database.PolyglotData
 import com.example.projectwork.network.SingleWord
+import com.example.projectwork.settings.CurrentLanguageData
 import kotlinx.coroutines.*
-import java.util.logging.Logger
-import kotlin.jvm.javaClass
 
 class OldWordRepeatViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -27,23 +24,23 @@ class OldWordRepeatViewModel(application: Application) : AndroidViewModel(applic
 
     private val dao = myApp.database.polyglotDatabaseDao
 
-    suspend fun getWord(id : Long) : PolyglotData{
-        return dao.getWord(id)
-    }
 
     var intWord: MutableLiveData<SingleWord?> = MutableLiveData(SingleWord(0, "Wait", "Wait", "Wait", "http://mmcspolyglot.mcdir.ru/images/default_picture.jpg"))
-    var word: MutableLiveData<PolyglotData?> = MutableLiveData(PolyglotData(0, 1, 1, "wait", false))
+    var word: MutableLiveData<CurrentLanguageData?> = MutableLiveData(CurrentLanguageData(1, "wait"))
 
     init {
         startingWork()
     }
 
-    suspend fun getOneWord() {
-        word.postValue(dao.getFirstWord(myApp.currentLanguage))
+    fun getWord(id : Long){
+        word.postValue(myApp.studiedWords!!.find { t -> t.wordId == id })
     }
+//    suspend fun getOneWord() {
+//        word.postValue(dao.getFirstWord(myApp.currentLanguage))
+//    }
 
     suspend fun getOneWordInternet() {
-        intWord.postValue(word?.value?.langId?.let { word?.value?.wordId?.let { it1 ->
+        intWord.postValue((myApp.currentLanguage + 1).let { word?.value?.wordId?.let { it1 ->
             myApp.remoteService.getWordInfo(it,
                 it1
             )
@@ -53,8 +50,8 @@ class OldWordRepeatViewModel(application: Application) : AndroidViewModel(applic
 
     private fun startingWork() {
         coroutineScope.launch(Dispatchers.IO) {
-            word.postValue(getWord(1))
-            delay(500)
+//            word.postValue(myApp.studiedWords!!.random())
+            delay(100)
             getOneWordInternet()
         }
     }

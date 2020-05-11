@@ -18,6 +18,7 @@ import com.example.projectwork.App
 import com.example.projectwork.R
 import com.example.projectwork.base_list.ListAdapter
 import kotlinx.android.synthetic.main.app_settings_fragment.*
+import kotlinx.coroutines.coroutineScope
 
 class AppSettingsFragment : Fragment() {
 
@@ -31,7 +32,13 @@ class AppSettingsFragment : Fragment() {
     private val adapter : ListAdapter<LanguageData> = AppSettingsAdapter{
         //обработку нажатий на элемент списка лучше делать из фрагмента
 //        var myApp = App()
-        myApp.currentLanguage = it.ID
+        if (myApp.studiedWords.count() > 0 || myApp.notStudiedWords.count() > 0) {
+            viewModel.languageToBase(myApp.currentLanguage)
+        }
+        myApp.currentLanguage = it.ID - 1
+
+        val newLanguageNumber = it.ID - 1
+        Log.d("Settings", "Language change to language with number = $newLanguageNumber")
     }
 
     override fun onCreateView(

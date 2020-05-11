@@ -1,13 +1,10 @@
 package com.example.projectwork.dictionary
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import com.example.projectwork.App
-import com.example.projectwork.database.PolyglotData
 import com.example.projectwork.database.PolyglotDatabaseDao
+import com.example.projectwork.settings.CurrentLanguageData
 import kotlinx.coroutines.*
 
 class DictionaryViewModel(application: Application) : AndroidViewModel(application) {
@@ -19,23 +16,22 @@ class DictionaryViewModel(application: Application) : AndroidViewModel(applicati
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val stub : LiveData<List<PolyglotData>> = liveData {
-        emit(listOf(PolyglotData(1, originalWord = "wait")))
+    private val stub : LiveData<List<CurrentLanguageData>> = liveData {
+        emit(listOf(CurrentLanguageData(1, word = "wait")))
     }
-    var okWords = stub
+    var okWords: MutableLiveData<List<CurrentLanguageData>> = stub as MutableLiveData<List<CurrentLanguageData>>
 
     init {
-        fillDictionary()
+        getValues()
     }
 
-    suspend fun getValues() {
-        okWords = database.getWords(myApp.currentLanguage)
+    private fun getValues() {
+        okWords.postValue(myApp.studiedWords)
     }
 
     private fun fillDictionary() {
         coroutineScope.launch(Dispatchers.IO) {
             getValues()
-            delay(20000)
         }
     }
 

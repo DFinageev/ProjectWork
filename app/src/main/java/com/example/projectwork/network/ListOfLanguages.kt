@@ -7,5 +7,5 @@ import com.squareup.moshi.JsonClass
 data class ListOfLanguages (
     val count: Long,
     val languages: String,
-    @Json(name = "countWords")val wordsCount: Long
+    @Json(name = "countWords")val wordsCount: String
 )
