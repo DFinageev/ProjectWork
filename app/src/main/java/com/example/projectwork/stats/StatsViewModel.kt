@@ -39,7 +39,7 @@ class StatsViewModel(app : Application) : AndroidViewModel(app){
         studiedWordsAmount.postValue(okWords)
         wordsAmount.postValue(allWords)
         wordsLeft.postValue(allWords - okWords)
-//        delay(500)
+        delay(100)
     }
 
     private fun startLangs() {

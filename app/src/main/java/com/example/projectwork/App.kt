@@ -76,6 +76,8 @@ class App : Application() {
     }
 
     suspend fun languageToBase(languageNumber: Long) {
+        studiedWords.sortBy { it.wordId }
+        notStudiedWords.sortBy { it.wordId }
         val languageBaseFormat = PolyglotData(
             uniqueId = languageNumber + 1,
             studiedWordIds = studiedWords.joinToString(separator = ";") { t -> t.wordId.toString()},

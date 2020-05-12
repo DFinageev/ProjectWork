@@ -30,7 +30,7 @@ class NewWordsViewModel(app : Application) : AndroidViewModel(app) {
         if (myApp.notStudiedWords.count() == 0) {
             word.postValue(null)
         } else {
-            word.postValue(myApp.notStudiedWords!!.random())
+            word.postValue(myApp.notStudiedWords!![0])
         }
     }
 

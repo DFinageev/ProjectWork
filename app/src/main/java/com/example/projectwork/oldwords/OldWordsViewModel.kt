@@ -23,16 +23,18 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     var intWord: MutableLiveData<SingleWord?> = MutableLiveData(SingleWord(0, "Wait", "Wait", "Wait", "http://mmcspolyglot.mcdir.ru/images/default_picture.jpg"))
     var word: MutableLiveData<CurrentLanguageData?> = MutableLiveData(CurrentLanguageData(1, "wait"))
     var resultText = ""
+    var wordText = "Загрузка слова"
 
     init {
         startingWork()
     }
 
     fun getOneWord() {
-        if (myApp.studiedWords.count() == 0){
+        if (myApp.studiedWords.count() == 0) {
             word.postValue(null)
-        }else{
+        } else {
             word.postValue(myApp.studiedWords!!.random())
+            wordText = word.value!!.word
         }
     }
 
@@ -70,8 +72,9 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
             else {
                 resultText = "Правильно!"
             }
+            wordText = "Загрузка слова"
             getOneWord()
-            delay(500)
+            delay(100)
             getOneWordInternet()
         }
     }

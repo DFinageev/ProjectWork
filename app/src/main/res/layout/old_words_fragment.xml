@@ -10,8 +10,13 @@
         <import type="android.view.View" />
     </data>
 
-    <FrameLayout android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="32dp"
+        android:paddingTop="32dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="32dp"
         tools:context=".oldwords.OldWordsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,8 +30,9 @@
                 android:layout_height="wrap_content"
                 android:text="@{oldWordsViewModel.resultText}"
                 app:layout_constraintBottom_toTopOf="@+id/taskText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/taskText"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/taskText"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -35,19 +41,20 @@
                 android:layout_height="wrap_content"
                 android:text="Введите перевод слова на русском языке"
                 app:layout_constraintBottom_toTopOf="@+id/wordText"
-                app:layout_constraintEnd_toEndOf="@+id/resultText"
-                app:layout_constraintStart_toStartOf="@+id/resultText"
+                app:layout_constraintEnd_toEndOf="@+id/wordText"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/wordText"
                 app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
             <TextView
                 android:id="@+id/wordText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Word"
+                android:text="@{oldWordsViewModel.wordText}"
                 app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
-                app:layout_constraintEnd_toEndOf="@+id/taskText"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/taskText"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
                 app:layout_constraintTop_toBottomOf="@+id/taskText" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -55,8 +62,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@+id/checkButton"
-                app:layout_constraintEnd_toEndOf="@+id/wordText"
-                app:layout_constraintStart_toStartOf="@+id/wordText"
+                app:layout_constraintEnd_toEndOf="@+id/checkButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/checkButton"
                 app:layout_constraintTop_toBottomOf="@+id/wordText">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -76,8 +84,9 @@
                 android:layout_weight="1"
                 android:text="Дальше"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
