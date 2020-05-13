@@ -48,4 +48,12 @@ class AppSettingsViewModel(application: Application) : AndroidViewModel(applicat
 //        }
     }
 
+    override fun onCleared() {
+        coroutineScope.launch(Dispatchers.IO) {
+            myApp.languageToBase(myApp.currentLanguage)
+        }
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
 }

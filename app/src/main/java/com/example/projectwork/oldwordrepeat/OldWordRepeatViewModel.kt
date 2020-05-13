@@ -62,6 +62,9 @@ class OldWordRepeatViewModel(application: Application) : AndroidViewModel(applic
     }
 
     override fun onCleared() {
+        coroutineScope.launch(Dispatchers.IO) {
+            myApp.languageToBase(myApp.currentLanguage)
+        }
         super.onCleared()
         viewModelJob.cancel()
     }

@@ -59,5 +59,11 @@ class StatsViewModel(app : Application) : AndroidViewModel(app){
         }
     }
 
-
+    override fun onCleared() {
+        coroutineScope.launch(Dispatchers.IO) {
+            myApp.languageToBase(myApp.currentLanguage)
+        }
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 }

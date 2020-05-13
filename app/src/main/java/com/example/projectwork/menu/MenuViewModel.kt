@@ -103,4 +103,11 @@ class MenuViewModel(app : Application) : AndroidViewModel(app) {
 
     val word = liveData{ emit(remoteService.getWordInfo(1, 1)) }
 
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+        coroutineScope.launch(Dispatchers.IO) {
+            myApp.languageToBase(myApp.currentLanguage)
+        }
+    }
 }

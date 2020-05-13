@@ -82,10 +82,10 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     }
 
     override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
         coroutineScope.launch(Dispatchers.IO) {
             myApp.languageToBase(myApp.currentLanguage)
         }
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }
