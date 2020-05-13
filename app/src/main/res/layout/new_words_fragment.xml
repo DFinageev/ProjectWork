@@ -38,15 +38,12 @@
                 <ScrollView
                     style="@android:style/Widget.DeviceDefault.Light.ScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="16dp">
+                    android:layout_height="match_parent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="#3103A9F4"
                         android:orientation="vertical">
 
                         <ImageView
@@ -63,7 +60,9 @@
                             android:text="@{newWordsViewModel.intWord.originWord}"
                             android:textAlignment="center"
                             android:textAllCaps="true"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/transcryptionText"
@@ -71,14 +70,21 @@
                             android:layout_height="wrap_content"
                             android:text="@{newWordsViewModel.intWord.transcription}"
                             android:textAlignment="center"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/translationText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="16dp"
                             android:text="@{newWordsViewModel.splittingWord()}"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                            android:textAlignment="textStart"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textSize="24sp" />
 
                     </LinearLayout>
                 </ScrollView>

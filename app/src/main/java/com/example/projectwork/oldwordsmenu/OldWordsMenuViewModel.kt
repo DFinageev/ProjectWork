@@ -15,11 +15,10 @@ class OldWordsMenuViewModel(app : Application) : ViewModel() {
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main )
     var myApp = app as App
 
-    override fun onCleared() {
-        coroutineScope.launch(Dispatchers.IO) {
-            myApp.languageToBase(myApp.currentLanguage)
-        }
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+//    override fun onCleared() {
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp.languageToBase(myApp.currentLanguage)
+//        }
+//        super.onCleared()
+//    }
 }

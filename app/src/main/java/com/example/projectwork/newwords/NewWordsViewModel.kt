@@ -1,8 +1,10 @@
 package com.example.projectwork.newwords
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.projectwork.App
 import com.example.projectwork.database.PolyglotDatabaseDao
 import com.example.projectwork.network.SingleWord
@@ -44,9 +46,9 @@ class NewWordsViewModel(app : Application) : AndroidViewModel(app) {
     }
 
     private fun startingWork() {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             getOneWord()
-            delay(100)
+            delay(200)
             getOneWordInternet()
 
         }
@@ -58,10 +60,14 @@ class NewWordsViewModel(app : Application) : AndroidViewModel(app) {
     }
 
     fun nextWord() {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             word?.value?.word = intWord?.value?.originWord ?: "not_studied_yet"
             myApp.notStudiedWords!!.remove(myApp.notStudiedWords!!.find {t -> t.wordId == word.value!!.wordId})
             myApp.studiedWords?.add(word.value!!)
+            val temp1 = myApp.studiedWords
+            val temp2 = myApp.notStudiedWords
+            Log.d("AppData", "studiedWords = $temp1")
+            Log.d("AppData", "notStudiedWords = $temp2")
             delay(100)
             getOneWord()
             delay(100)
@@ -75,11 +81,10 @@ class NewWordsViewModel(app : Application) : AndroidViewModel(app) {
         }
     }
 
-    override fun onCleared() {
-        coroutineScope.launch(Dispatchers.IO) {
-            myApp.languageToBase(myApp.currentLanguage)
-        }
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+//    override fun onCleared() {
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp.languageToBase(myApp.currentLanguage)
+//        }
+//        super.onCleared()
+//    }
 }

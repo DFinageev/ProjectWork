@@ -65,7 +65,7 @@ class App : Application() {
         studiedWords = mutableListOf()
 
         val tempIds1 = langInfo.notStudiedWordIds.split(delimiters = *arrayOf((";"))).toList()
-        val tempIds2 = langInfo.notStudiedWordIds.split(delimiters = *arrayOf((";"))).toList()
+        val tempIds2 = langInfo.studiedWordIds.split(delimiters = *arrayOf((";"))).toList()
         val tempWords1 = langInfo.notStudiedOriginalWords.split(delimiters = *arrayOf((";"))).toList()
         val tempWords2 = langInfo.studiedOriginalWords.split(delimiters = *arrayOf((";"))).toList()
         notStudiedWords = MutableList(langInfo.notStudiedCount.toInt()) { i -> CurrentLanguageData(

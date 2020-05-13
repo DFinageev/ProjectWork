@@ -29,11 +29,12 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
         startingWork()
     }
 
-    fun getOneWord() {
+    suspend fun getOneWord() {
         if (myApp.studiedWords.count() == 0) {
             word.postValue(null)
         } else {
             word.postValue(myApp.studiedWords!!.random())
+            delay(100)
             wordText.postValue(word.value!!.word)
         }
     }
@@ -48,7 +49,7 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     }
 
     private fun startingWork() {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             getOneWord()
             delay(100)
             getOneWordInternet()
@@ -62,9 +63,9 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
 //    }
 
     fun nextWord(answer: String) {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             if (!answer.toLowerCase(Locale.ROOT).toRegex().containsMatchIn(intWord.value!!.translation.toLowerCase(Locale.ROOT))) {
-                word.postValue(myApp.notStudiedWords!!.find {t -> t.word == word.value!!.word})
+                word.postValue(myApp.studiedWords!!.find {t -> t.word == word.value!!.word})
                 myApp.studiedWords!!.remove(myApp.studiedWords!!.find {t -> t.wordId == word.value!!.wordId})
                 myApp.notStudiedWords?.add(word.value!!)
                 resultText = "Неправильно!"
@@ -81,11 +82,10 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
         }
     }
 
-    override fun onCleared() {
-        coroutineScope.launch(Dispatchers.IO) {
-            myApp.languageToBase(myApp.currentLanguage)
-        }
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+//    override fun onCleared() {
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp.languageToBase(myApp.currentLanguage)
+//        }
+//        super.onCleared()
+//    }
 }

@@ -43,7 +43,7 @@ class StatsViewModel(app : Application) : AndroidViewModel(app){
     }
 
     private fun startLangs() {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
 //            var okWords = database.countStudiedWords(mApp.currentLanguage)
 //            var allWords = database.countWords(mApp.currentLanguage)
 //            delay(20000)
@@ -64,6 +64,5 @@ class StatsViewModel(app : Application) : AndroidViewModel(app){
             myApp.languageToBase(myApp.currentLanguage)
         }
         super.onCleared()
-        viewModelJob.cancel()
     }
 }

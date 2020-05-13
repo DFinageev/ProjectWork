@@ -27,7 +27,7 @@ class AppSettingsViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun startLangs() {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             listResult.postValue(remoteService.getListOfLanguages())
 //            languages = liveData {
 //                listOf(1, listResult!!.value!!.languages, listResult!!.value!!.count)
@@ -37,7 +37,7 @@ class AppSettingsViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun languageToBase(languageNumber: Long) {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             myApp.languageToBase(languageNumber)
         }
     }
@@ -48,12 +48,11 @@ class AppSettingsViewModel(application: Application) : AndroidViewModel(applicat
 //        }
     }
 
-    override fun onCleared() {
-        coroutineScope.launch(Dispatchers.IO) {
-            myApp.languageToBase(myApp.currentLanguage)
-        }
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+//    override fun onCleared() {
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp.languageToBase(myApp.currentLanguage)
+//        }
+//        super.onCleared()
+//    }
 
 }

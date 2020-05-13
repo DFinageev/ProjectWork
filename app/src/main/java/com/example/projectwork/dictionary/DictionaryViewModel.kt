@@ -30,16 +30,15 @@ class DictionaryViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     private fun fillDictionary() {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             getValues()
         }
     }
 
-    override fun onCleared() {
-        coroutineScope.launch(Dispatchers.IO) {
-            myApp.languageToBase(myApp.currentLanguage)
-        }
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+//    override fun onCleared() {
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp.languageToBase(myApp.currentLanguage)
+//        }
+//        super.onCleared()
+//    }
 }

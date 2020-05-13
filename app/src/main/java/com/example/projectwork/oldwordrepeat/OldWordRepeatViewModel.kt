@@ -49,7 +49,7 @@ class OldWordRepeatViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private fun startingWork() {
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
 //            word.postValue(myApp.studiedWords!!.random())
             delay(100)
             getOneWordInternet()
@@ -61,11 +61,10 @@ class OldWordRepeatViewModel(application: Application) : AndroidViewModel(applic
             append(line + "\n")
     }
 
-    override fun onCleared() {
-        coroutineScope.launch(Dispatchers.IO) {
-            myApp.languageToBase(myApp.currentLanguage)
-        }
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+//    override fun onCleared() {
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp.languageToBase(myApp.currentLanguage)
+//        }
+//        super.onCleared()
+//    }
 }

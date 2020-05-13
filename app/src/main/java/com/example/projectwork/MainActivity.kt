@@ -17,34 +17,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+//    override fun onDestroy() {
+//        var activityJob = Job()
+//        var myApp = MainActivity().application as App
+//        val coroutineScope = CoroutineScope(activityJob + Dispatchers.Main )
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp.languageToBase(myApp.currentLanguage)
+//        }
+//        super.onDestroy()
+//    }
+
+    override fun onStop() {
         var activityJob = Job()
-        var myApp = MainActivity().application as App
+        var myApp = application as App?
         val coroutineScope = CoroutineScope(activityJob + Dispatchers.Main )
         coroutineScope.launch(Dispatchers.IO) {
-            myApp.languageToBase(myApp.currentLanguage)
-            delay(500)
+            myApp?.languageToBase(myApp?.currentLanguage)
         }
+        super.onStop()
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        var activityJob = Job()
-//        var myApp = MainActivity().application as App?
-//        val coroutineScope = CoroutineScope(activityJob + Dispatchers.Main )
-//        coroutineScope.launch(Dispatchers.IO) {
-//            myApp?.languageToBase(myApp?.currentLanguage)
-//        }
-//    }
-
-//    override fun onStop() {
-//        super.onStop()
-//        var activityJob = Job()
-//        var myApp = MainActivity().application as App?
-//        val coroutineScope = CoroutineScope(activityJob + Dispatchers.Main )
-//        coroutineScope.launch(Dispatchers.IO) {
-//            myApp?.languageToBase(myApp?.currentLanguage)
-//        }
-//    }
 }

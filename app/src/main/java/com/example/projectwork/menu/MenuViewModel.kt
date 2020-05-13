@@ -52,8 +52,7 @@ class MenuViewModel(app : Application) : AndroidViewModel(app) {
 
 
     private fun startLangs() {
-
-        coroutineScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             myApp.getLangsResponse() //Получение языков из интернета
 //            val wordsCheck = database.wordsCount() //Кол-во слов в языках на устройстве
             val langsCheck = database.countLangs() //Кол-во языков на устройстве
@@ -103,11 +102,10 @@ class MenuViewModel(app : Application) : AndroidViewModel(app) {
 
     val word = liveData{ emit(remoteService.getWordInfo(1, 1)) }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-        coroutineScope.launch(Dispatchers.IO) {
-            myApp.languageToBase(myApp.currentLanguage)
-        }
-    }
+//    override fun onCleared() {
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp.languageToBase(myApp.currentLanguage)
+//        }
+//        super.onCleared()
+//    }
 }
