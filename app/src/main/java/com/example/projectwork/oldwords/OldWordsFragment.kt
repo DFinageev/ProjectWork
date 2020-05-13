@@ -51,6 +51,9 @@ class OldWordsFragment : Fragment() {
                 oldWordsViewModel = viewModel
 
             }
+            viewModel.wordText.observe(viewLifecycleOwner) {
+                oldWordsViewModel = viewModel
+            }
             viewModel.word.observe(viewLifecycleOwner) {
                 if (viewModel.word.value == null)
                     view?.let { findNavController().navigate(R.id.action_oldWordsFragment_to_oldWordsMenuFragment) }

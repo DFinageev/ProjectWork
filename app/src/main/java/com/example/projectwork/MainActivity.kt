@@ -24,6 +24,27 @@ class MainActivity : AppCompatActivity() {
         val coroutineScope = CoroutineScope(activityJob + Dispatchers.Main )
         coroutineScope.launch(Dispatchers.IO) {
             myApp.languageToBase(myApp.currentLanguage)
+            delay(500)
         }
     }
+
+//    override fun onPause() {
+//        super.onPause()
+//        var activityJob = Job()
+//        var myApp = MainActivity().application as App?
+//        val coroutineScope = CoroutineScope(activityJob + Dispatchers.Main )
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp?.languageToBase(myApp?.currentLanguage)
+//        }
+//    }
+
+//    override fun onStop() {
+//        super.onStop()
+//        var activityJob = Job()
+//        var myApp = MainActivity().application as App?
+//        val coroutineScope = CoroutineScope(activityJob + Dispatchers.Main )
+//        coroutineScope.launch(Dispatchers.IO) {
+//            myApp?.languageToBase(myApp?.currentLanguage)
+//        }
+//    }
 }

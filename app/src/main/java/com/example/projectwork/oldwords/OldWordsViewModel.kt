@@ -23,7 +23,7 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     var intWord: MutableLiveData<SingleWord?> = MutableLiveData(SingleWord(0, "Wait", "Wait", "Wait", "http://mmcspolyglot.mcdir.ru/images/default_picture.jpg"))
     var word: MutableLiveData<CurrentLanguageData?> = MutableLiveData(CurrentLanguageData(1, "wait"))
     var resultText = ""
-    var wordText = "Загрузка слова"
+    var wordText = MutableLiveData("Загрузка слова")
 
     init {
         startingWork()
@@ -34,7 +34,7 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
             word.postValue(null)
         } else {
             word.postValue(myApp.studiedWords!!.random())
-            wordText = word.value!!.word
+            wordText.postValue(word.value!!.word)
         }
     }
 
@@ -52,6 +52,7 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
             getOneWord()
             delay(100)
             getOneWordInternet()
+            delay(500)
         }
     }
 
@@ -72,16 +73,19 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
             else {
                 resultText = "Правильно!"
             }
-            wordText = "Загрузка слова"
+            wordText.postValue("Загрузка слова")
             getOneWord()
             delay(100)
             getOneWordInternet()
+            delay(500)
         }
     }
 
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+        coroutineScope.launch(Dispatchers.IO) {
+            myApp.languageToBase(myApp.currentLanguage)
+        }
     }
-
 }
