@@ -1,6 +1,11 @@
 package com.example.projectwork.settings
 
+import android.content.Context
+import android.graphics.Point
+import android.util.DisplayMetrics
+import android.view.Display
 import android.view.View
+import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projectwork.R
 import com.example.projectwork.base_list.Bindable
@@ -8,7 +13,7 @@ import com.example.projectwork.base_list.ListAdapter
 import com.example.projectwork.base_list.holder_creators.Creator
 import com.example.projectwork.base_list.holder_creators.SimpleCreator
 import kotlinx.android.synthetic.main.app_settings_item_with_binding.view.*
-import kotlinx.android.synthetic.main.item_without_binding.view.*
+import kotlin.math.roundToInt
 
 
 //если тебе нужна обработка нажатия, то лучше передавать обработчик через конструктор таким образом
@@ -52,6 +57,17 @@ class AppSettingsAdapter(private val onClickAction : (LanguageData) -> Unit) : L
             view.apply {
                 //language_tv.text = item.language
                 button.text = item.language
+//                var metrics = DisplayMetrics()
+//
+//                display.getMetrics(metrics)
+//                button.width = (metrics.widthPixels.toDouble() * 0.8).roundToInt()
+                var size = Point()
+                itemView.apply {
+                    val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                    windowManager.defaultDisplay.getSize(size)
+                }
+                button.width = (size.x.toDouble() * 0.8).roundToInt()
+
                 button.setOnClickListener {
                     onClickAction(item)
 

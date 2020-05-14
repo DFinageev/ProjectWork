@@ -23,7 +23,7 @@ class App : Application() {
 
     var currentLanguage: Long = 0
     var dictWord = Word("unknown", "unknown", "unknown")
-    lateinit var allLanguages: MutableList<LanguageData>
+    var allLanguages: MutableList<LanguageData> = mutableListOf()
     var studiedWords: MutableList<CurrentLanguageData> = mutableListOf()
     var notStudiedWords: MutableList<CurrentLanguageData> = mutableListOf()
 

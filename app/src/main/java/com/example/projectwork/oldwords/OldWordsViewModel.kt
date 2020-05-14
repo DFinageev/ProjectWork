@@ -21,9 +21,30 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     private lateinit var okWords: MutableLiveData<List<PolyglotData?>>
 
     var intWord: MutableLiveData<SingleWord?> = MutableLiveData(SingleWord(0, "Wait", "Wait", "Wait", "http://mmcspolyglot.mcdir.ru/images/default_picture.jpg"))
-    var word: MutableLiveData<CurrentLanguageData?> = MutableLiveData(CurrentLanguageData(1, "wait"))
+    var word: MutableLiveData<CurrentLanguageData?> = MutableLiveData(CurrentLanguageData(0, "wait"))
     var resultText = ""
     var wordText = MutableLiveData("Загрузка слова")
+
+    private var _showSnackbarEvent = MutableLiveData<Boolean>()
+    val showSnackBarEvent: LiveData<Boolean>
+        get() = _showSnackbarEvent
+    private var _snackbarString = MutableLiveData<String>()
+    val snackbarString: LiveData<String>
+        get() = _snackbarString
+    fun doneShowingSnackbar() {
+        _showSnackbarEvent.value = false
+    }
+    fun startShowingSnackbar() {
+        _showSnackbarEvent.value = true
+    }
+    fun correctAnswerSnackbar() {
+        _snackbarString.postValue("Правильно!")
+        startShowingSnackbar()
+    }
+    fun uncorrectAnswerSnackbar() {
+        _snackbarString.postValue("Неправильно!")
+        startShowingSnackbar()
+    }
 
     init {
         startingWork()
@@ -31,7 +52,7 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
 
     suspend fun getOneWord() {
         if (myApp.studiedWords.count() == 0) {
-            word.postValue(null)
+            word.postValue(CurrentLanguageData(-1, "wait"))
         } else {
             word.postValue(myApp.studiedWords!!.random())
             delay(100)
@@ -68,11 +89,11 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
                 word.postValue(myApp.studiedWords!!.find {t -> t.word == word.value!!.word})
                 myApp.studiedWords!!.remove(myApp.studiedWords!!.find {t -> t.wordId == word.value!!.wordId})
                 myApp.notStudiedWords?.add(word.value!!)
-                resultText = "Неправильно!"
+                uncorrectAnswerSnackbar()
                 delay(100)
             }
             else {
-                resultText = "Правильно!"
+                correctAnswerSnackbar()
             }
             wordText.postValue("Загрузка слова")
             getOneWord()

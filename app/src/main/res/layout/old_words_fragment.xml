@@ -24,18 +24,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/resultText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{oldWordsViewModel.resultText}"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/taskText"
-                app:layout_constraintEnd_toEndOf="@+id/taskText"
-                app:layout_constraintStart_toStartOf="@+id/taskText"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/taskText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +33,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/wordText"
                 app:layout_constraintEnd_toEndOf="@+id/wordText"
                 app:layout_constraintStart_toStartOf="@+id/wordText"
-                app:layout_constraintTop_toBottomOf="@+id/resultText" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/wordText"
@@ -91,7 +79,7 @@
                 <Button
                     android:id="@+id/checkButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="0dp"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:text="Дальше"

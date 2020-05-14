@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="32dp"
+    android:paddingLeft="64dp"
     android:paddingTop="32dp"
-    android:paddingRight="32dp"
+    android:paddingRight="64dp"
     android:paddingBottom="32dp"
     tools:context=".oldwordsmenu.OldWordsMenuFragment">
 
@@ -17,7 +17,7 @@
 
         <Button
             android:id="@+id/dictionaryButton"
-            android:layout_width="0dp"
+            android:layout_width="281dp"
             android:layout_height="wrap_content"
             android:text="Словарь"
             app:layout_constraintBottom_toTopOf="@+id/oldWordsButton"
@@ -27,13 +27,33 @@
 
         <Button
             android:id="@+id/oldWordsButton"
-            android:layout_width="wrap_content"
+            android:layout_width="281dp"
             android:layout_height="wrap_content"
-            android:text="Проверить изученные слова"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Написать перевод"
+            app:layout_constraintBottom_toTopOf="@+id/quizButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dictionaryButton" />
+
+        <Button
+            android:id="@+id/quizButton"
+            android:layout_width="281dp"
+            android:layout_height="wrap_content"
+            android:text="Выбрать перевод"
+            app:layout_constraintBottom_toTopOf="@+id/constructButton"
+            app:layout_constraintEnd_toEndOf="@+id/oldWordsButton"
+            app:layout_constraintStart_toStartOf="@+id/oldWordsButton"
+            app:layout_constraintTop_toBottomOf="@+id/oldWordsButton" />
+
+        <Button
+            android:id="@+id/constructButton"
+            android:layout_width="281dp"
+            android:layout_height="wrap_content"
+            android:text="Составить слово"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/quizButton"
+            app:layout_constraintStart_toStartOf="@+id/quizButton"
+            app:layout_constraintTop_toBottomOf="@+id/quizButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

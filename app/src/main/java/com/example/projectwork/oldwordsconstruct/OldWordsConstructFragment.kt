@@ -1,4 +1,4 @@
-package com.example.projectwork.oldwords
+package com.example.projectwork.oldwordsconstruct
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,30 +9,27 @@ import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import com.example.projectwork.BR.oldWordsConstructViewModel
 import com.example.projectwork.R
-import com.example.projectwork.databinding.OldWordsFragmentBinding
+import com.example.projectwork.databinding.OldWordsConstructFragmentBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.old_words_fragment.*
-import java.util.*
+import kotlinx.android.synthetic.main.old_words_construct_fragment.*
 
-
-class OldWordsFragment : Fragment() {
+class OldWordsConstructFragment : Fragment() {
 
     companion object {
-        fun newInstance() = OldWordsFragment()
+        fun newInstance() = OldWordsConstructFragment()
     }
 
-    private val viewModel: OldWordsViewModel by viewModels()
+    private val viewModel: OldWordsConstructViewModel by viewModels()
 
-    private lateinit var binding : OldWordsFragmentBinding
+    private lateinit var binding : OldWordsConstructFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = OldWordsFragmentBinding.inflate(inflater, container, false)
+        binding = OldWordsConstructFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,25 +38,25 @@ class OldWordsFragment : Fragment() {
 
         binding.apply {
 
-            oldWordsViewModel = viewModel
+            oldWordsConstructViewModel = viewModel
             binding.lifecycleOwner = lifecycleOwner
-            checkButton.setOnClickListener {
-                val answer = answer_text.text.toString().toLowerCase(Locale.ROOT)
+
+            checkButtonConstract.setOnClickListener {
+                val answer = answer_text_constract.text.toString()
                 viewModel.nextWord(answer)
             }
 
-//            viewModel.intWord.observe(viewLifecycleOwner) {
-//                oldWordsViewModel = viewModel
-//
-//            }
-            viewModel.wordText.observe(viewLifecycleOwner) {
-                oldWordsViewModel = viewModel
-            }
             viewModel.word.observe(viewLifecycleOwner) {
-                if (viewModel.word.value?.wordId?.toInt() == -1)
-                    view?.let { findNavController().navigate(R.id.action_oldWordsFragment_to_oldWordsMenuFragment) }
+                if (viewModel.word.value?.wordId?.toInt() == -1) {
+                    view?.let {findNavController().navigate(R.id.action_oldWordsConstructFragment_to_oldWordsMenuFragment)}
+                }
+                oldWordsConstructViewModel = viewModel
+            }
+            viewModel.wordText.observe(viewLifecycleOwner) {
+                oldWordsConstructViewModel = viewModel
             }
         }
+
 
         viewModel.showSnackBarEvent.observe(viewLifecycleOwner) {
             if (it == true) { // Observed state is true.
@@ -73,7 +70,7 @@ class OldWordsFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            view?.let { findNavController().navigate(R.id.action_oldWordsFragment_to_oldWordsMenuFragment) }
+            view?.let { findNavController().navigate(R.id.action_oldWordsConstructFragment_to_oldWordsMenuFragment) }
         }
     }
 

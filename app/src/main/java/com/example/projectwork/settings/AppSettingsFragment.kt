@@ -17,6 +17,7 @@ import com.example.projectwork.App
 
 import com.example.projectwork.R
 import com.example.projectwork.base_list.ListAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.app_settings_fragment.*
 import kotlinx.coroutines.coroutineScope
 
@@ -36,6 +37,8 @@ class AppSettingsFragment : Fragment() {
             viewModel.languageToBase(myApp.currentLanguage)
         }
         myApp.currentLanguage = it.ID - 1
+
+        viewModel.startShowingSnackbar()
 
         val newLanguageNumber = it.ID - 1
         Log.d("Settings", "Language change to language with number = $newLanguageNumber")
@@ -78,6 +81,16 @@ class AppSettingsFragment : Fragment() {
 
 //        adapter.setList(myApp.allLanguages)
 
+        viewModel.showSnackBarEvent.observe(viewLifecycleOwner) {
+            if (it == true) { // Observed state is true.
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    viewModel.getBarString(),
+                    Snackbar.LENGTH_SHORT // How long to display the message.
+                ).show()
+                viewModel.doneShowingSnackbar()
+            }
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             view?.let { findNavController().navigate(R.id.action_appSettingsFragment_to_menuFragment) }

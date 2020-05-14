@@ -52,7 +52,7 @@ class DictionaryAdapter(private val onClickAction : (CurrentLanguageData) -> Uni
     inner class DictionaryViewHolder(private val view : View) : RecyclerView.ViewHolder(view), Bindable<CurrentLanguageData>{
         override fun bind(item: CurrentLanguageData) {
             view.apply {
-                word1_tv.text = item.word
+                button1.text = item.word
                 button1.setOnClickListener {
                     onClickAction(item)
                 }

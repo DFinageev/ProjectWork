@@ -18,9 +18,6 @@
             android:id="@+id/action_menuFragment_to_statsFragment"
             app:destination="@id/statsFragment" />
         <action
-            android:id="@+id/action_menuFragment_to_exitScreenFragment"
-            app:destination="@id/exitScreenFragment" />
-        <action
             android:id="@+id/action_menuFragment_to_oldWordsMenuFragment"
             app:destination="@id/oldWordsMenuFragment" />
         <action
@@ -56,15 +53,6 @@
             app:destination="@id/menuFragment" />
     </fragment>
     <fragment
-        android:id="@+id/exitScreenFragment"
-        android:name="com.example.projectwork.exitscreen.ExitScreenFragment"
-        android:label="exit_screen_fragment"
-        tools:layout="@layout/exit_screen_fragment" >
-        <action
-            android:id="@+id/action_exitScreenFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/dictionaryFragment"
         android:name="com.example.projectwork.dictionary.DictionaryFragment"
         android:label="dictionary_fragment"
@@ -96,6 +84,12 @@
         <action
             android:id="@+id/action_oldWordsMenuFragment_to_oldWordRepeatFragment2"
             app:destination="@id/oldWordRepeatFragment" />
+        <action
+            android:id="@+id/action_oldWordsMenuFragment_to_oldWordsQuizFragment"
+            app:destination="@id/oldWordsQuizFragment" />
+        <action
+            android:id="@+id/action_oldWordsMenuFragment_to_oldWordsConstructFragment"
+            app:destination="@id/oldWordsConstructFragment" />
     </fragment>
     <fragment
         android:id="@+id/oldWordRepeatFragment"
@@ -119,5 +113,21 @@
         <action
             android:id="@+id/action_appSettingsFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/oldWordsConstructFragment"
+        android:name="com.example.projectwork.oldwordsconstruct.OldWordsConstructFragment"
+        android:label="OldWordsConstractFragment" >
+        <action
+            android:id="@+id/action_oldWordsConstructFragment_to_oldWordsMenuFragment"
+            app:destination="@id/oldWordsMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/oldWordsQuizFragment"
+        android:name="com.example.projectwork.oldwordsquiz.OldWordsQuizFragment"
+        android:label="OldWordsQuizFragment" >
+        <action
+            android:id="@+id/action_oldWordsQuizFragment_to_oldWordsMenuFragment"
+            app:destination="@id/oldWordsMenuFragment" />
     </fragment>
 </navigation>

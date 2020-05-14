@@ -32,6 +32,38 @@ class MenuViewModel(app : Application) : AndroidViewModel(app) {
     var newWordsButtonVisible = MutableLiveData<Boolean?>(true)
 //    var insertsCount = MutableLiveData(PolyglotData(0, 1, 1, "not_studied_yet", false))
 
+    private var _showSnackbarEvent = MutableLiveData<Boolean>()
+    val showSnackBarEvent: LiveData<Boolean>
+        get() = _showSnackbarEvent
+    private var _snackbarString = MutableLiveData<String>()
+    val snackbarString: LiveData<String>
+        get() = _snackbarString
+    fun doneShowingSnackbar() {
+        _showSnackbarEvent.value = false
+    }
+    fun startShowingSnackbar() {
+        _showSnackbarEvent.value = true
+    }
+    fun wordsAreNotReadySnackbar() {
+        _snackbarString.value = "В разделе нет слов для показа"
+        startShowingSnackbar()
+    }
+    fun currentLanguageIsNotReadySnackbar() {
+        _snackbarString.value = "Язык ещё до конца не загружен, подождите"
+        startShowingSnackbar()
+    }
+    fun languagesAreNotReadySnackbar() {
+        _snackbarString.value = "Список языков ещё не готов, подождите"
+        startShowingSnackbar()
+    }
+
+    val isNewWords: Boolean
+        get() = myApp.notStudiedWords.count() > 0
+    val isOldWords: Boolean
+        get() = myApp.studiedWords.count() > 0
+    val isLanguages: Boolean
+        get() = myApp.allLanguages.count() > 0
+
     init {
         startLangs()
     }
@@ -49,7 +81,6 @@ class MenuViewModel(app : Application) : AndroidViewModel(app) {
             database.insert(PolyglotData(0, "", "", "", "", 0, 0, 0))
         }
     }
-
 
     private fun startLangs() {
         viewModelScope.launch(Dispatchers.IO) {

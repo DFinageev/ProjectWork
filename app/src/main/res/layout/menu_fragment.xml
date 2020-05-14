@@ -13,10 +13,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#8F9FA8DA"
         tools:context=".menu.MenuFragment">
-<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--        xmlns:tools="http://schemas.android.com/tools"-->
+        <!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--        xmlns:tools="http://schemas.android.com/tools"-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainScreen"
@@ -50,7 +51,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/oldWords"
                 app:layout_constraintTop_toBottomOf="@+id/userPhoto" />
-<!--                android:visibility="@{menuViewModel.newWordsButtonVisible ? View.VISIBLE : View.GONE}"/>-->
+            <!--                android:visibility="@{menuViewModel.newWordsButtonVisible ? View.VISIBLE : View.GONE}"/>-->
 
             <Button
                 android:id="@+id/oldWords"
@@ -62,7 +63,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/newWords" />
-<!--                android:visibility="@{menuViewModel.oldWordsButtonVisible ? View.VISIBLE : View.GONE}"/>-->
+            <!--                android:visibility="@{menuViewModel.oldWordsButtonVisible ? View.VISIBLE : View.GONE}"/>-->
 
             <Button
                 android:id="@+id/stats"

@@ -22,6 +22,20 @@ class AppSettingsViewModel(application: Application) : AndroidViewModel(applicat
 //    var languages = stub//Запрос в интернет
     val languages = stub
 
+    private var _showSnackbarEvent = MutableLiveData<Boolean>()
+    val showSnackBarEvent: LiveData<Boolean>
+        get() = _showSnackbarEvent
+    fun doneShowingSnackbar() {
+        _showSnackbarEvent.value = false
+    }
+    fun startShowingSnackbar() {
+        _showSnackbarEvent.value = true
+    }
+
+    fun getBarString(): String {
+        return "Вы поменяли язык на: " + myApp.allLanguages[myApp.currentLanguage.toInt()].language
+    }
+
     init {
         startLangs()
     }
