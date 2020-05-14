@@ -64,7 +64,7 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
 
     fun nextWord(answer: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (!answer.toLowerCase(Locale.ROOT).toRegex().containsMatchIn(intWord.value!!.translation.toLowerCase(Locale.ROOT))) {
+            if (!(";$answer;").toLowerCase(Locale.ROOT).toRegex().containsMatchIn(intWord.value!!.translation.toLowerCase(Locale.ROOT))) {
                 word.postValue(myApp.studiedWords!!.find {t -> t.word == word.value!!.word})
                 myApp.studiedWords!!.remove(myApp.studiedWords!!.find {t -> t.wordId == word.value!!.wordId})
                 myApp.notStudiedWords?.add(word.value!!)
