@@ -23,17 +23,17 @@ class OldWordsConstructViewModel(app : Application) : AndroidViewModel(app) {
     val snackbarString: LiveData<String>
         get() = _snackbarString
     fun doneShowingSnackbar() {
-        _showSnackbarEvent.value = false
+        _showSnackbarEvent.postValue(false)
     }
     fun startShowingSnackbar() {
-        _showSnackbarEvent.value = true
+        _showSnackbarEvent.postValue(true)
     }
     fun correctAnswerSnackbar() {
-        _snackbarString.value = "Правильно!"
+        _snackbarString.postValue("Правильно!")
         startShowingSnackbar()
     }
     fun uncorrectAnswerSnackbar() {
-        _snackbarString.value = "Неправильно!"
+        _snackbarString.postValue("Неправильно!")
         startShowingSnackbar()
     }
     fun writeWord(): String {
@@ -44,8 +44,10 @@ class OldWordsConstructViewModel(app : Application) : AndroidViewModel(app) {
         startingWork()
     }
 
-    fun wordToLetters(word : String) : String {
-        var letters = mutableListOf(word.toCharArray())
+    fun wordToLetters(parsebleWord : String) : String {
+        var letters = mutableListOf<String>()
+        for (i in 1..parsebleWord.length)
+            letters.add(parsebleWord[i].toString())
         letters.shuffle()
         return letters.joinToString(separator = ",")
     }

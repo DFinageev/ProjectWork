@@ -1,6 +1,9 @@
 package com.example.projectwork.dictionary
 
+import android.content.Context
+import android.graphics.Point
 import android.view.View
+import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projectwork.R
 import com.example.projectwork.base_list.Bindable
@@ -11,6 +14,7 @@ import com.example.projectwork.database.PolyglotData
 import com.example.projectwork.databinding.DictionaryItemWithBindingBinding
 import com.example.projectwork.settings.CurrentLanguageData
 import kotlinx.android.synthetic.main.item_without_binding.view.*
+import kotlin.math.roundToInt
 
 
 //если тебе нужна обработка нажатия, то лучше передавать обработчик через конструктор таким образом
@@ -53,6 +57,13 @@ class DictionaryAdapter(private val onClickAction : (CurrentLanguageData) -> Uni
         override fun bind(item: CurrentLanguageData) {
             view.apply {
                 button1.text = item.word
+                var size = Point()
+                itemView.apply {
+                    val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                    windowManager.defaultDisplay.getSize(size)
+                }
+                button1.width = (size.x.toDouble() * 0.8).roundToInt()
+
                 button1.setOnClickListener {
                     onClickAction(item)
                 }

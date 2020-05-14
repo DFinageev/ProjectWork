@@ -32,10 +32,10 @@ class OldWordsViewModel(app : Application) : AndroidViewModel(app) {
     val snackbarString: LiveData<String>
         get() = _snackbarString
     fun doneShowingSnackbar() {
-        _showSnackbarEvent.value = false
+        _showSnackbarEvent.postValue(false)
     }
     fun startShowingSnackbar() {
-        _showSnackbarEvent.value = true
+        _showSnackbarEvent.postValue(true)
     }
     fun correctAnswerSnackbar() {
         _snackbarString.postValue("Правильно!")
