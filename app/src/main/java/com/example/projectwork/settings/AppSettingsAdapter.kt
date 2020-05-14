@@ -50,7 +50,7 @@ class AppSettingsAdapter(private val onClickAction : (LanguageData) -> Unit) : L
     inner class AppSettingsViewHolder(private val view : View) : RecyclerView.ViewHolder(view), Bindable<LanguageData>{
         override fun bind(item: LanguageData) {
             view.apply {
-                language_tv.text = item.language
+                //language_tv.text = item.language
                 button.text = item.language
                 button.setOnClickListener {
                     onClickAction(item)
